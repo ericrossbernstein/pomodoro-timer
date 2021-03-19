@@ -4,6 +4,7 @@ import useInterval from "../utils/useInterval";
 import { secondsToDuration } from "../utils/duration";
 import Title from "./Title.js";
 import TimerCount from "./TimerCount.js";
+import Paused from "./Paused.js";
 import ProgressBar from "./ProgressBar.js";
 
 function Pomodoro() {
@@ -230,6 +231,9 @@ function Pomodoro() {
             {/* Timer Count : counts down remaining time */}
             <TimerCount timerState={timerState} remainingTime={remainingTime} />
           </div>
+        </div>
+        <div>
+          <Paused timerState={timerState} />
         </div>
         <div className="row mb-2">
           <div className="col">
