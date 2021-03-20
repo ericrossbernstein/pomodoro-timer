@@ -51,11 +51,11 @@ function Pomodoro() {
   // Calls swapTimers function when time reaches zero
   useInterval(
     () => {
-      if (remainingTime === 0) {
-        swapTimers();
-      } else {
+      if (remainingTime) {
         setRemainingTime((prevState) => prevState - 1);
         findProgressPercent();
+      } else {
+        swapTimers();
       }
     },
     timerState.play ? 1000 : null
@@ -66,10 +66,10 @@ function Pomodoro() {
   function swapTimers() {
     const audio = new Audio(`https://bigsoundbank.com/UPLOAD/mp3/1482.mp3`);
     audio.play();
-    if (!onBreak) {
-      setRemainingTime(breakDuration);
-    } else {
+    if (onBreak) {
       setRemainingTime(focusDuration);
+    } else {
+      setRemainingTime(breakDuration);
     }
     setOnBreak((prevState) => !prevState);
     setProgressPercent(0);
@@ -77,17 +77,17 @@ function Pomodoro() {
 
   // Calculates what percentage of timer is complete
   function findProgressPercent() {
+    let percent;
     if (onBreak) {
-      const percent = Math.round(
+      percent = Math.round(
         ((breakDuration - remainingTime) * 100) / breakDuration
       );
-      setProgressPercent(percent);
     } else {
-      const percent = Math.round(
+      percent = Math.round(
         ((focusDuration - remainingTime) * 100) / focusDuration
       );
-      setProgressPercent(percent);
     }
+    setProgressPercent(percent);
   }
 
   // Play/pause button handler
